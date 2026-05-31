@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Summer Countdown</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -14,10 +14,7 @@
       --border: #2a2a2a;
       --text: #f0f0f0;
       --muted: #555;
-      --accent: #e8e8e8;
     }
-
-    html { font-size: 16px; }
 
     body {
       background: var(--bg);
@@ -32,7 +29,6 @@
       padding: 56px 20px 80px;
     }
 
-    /* ── Glyph ── */
     .glyph {
       display: flex;
       gap: 6px;
@@ -40,16 +36,15 @@
     }
     .glyph span {
       display: block;
-      width: 5px;
-      height: 5px;
+      width: 5px; height: 5px;
       border-radius: 50%;
       background: #fff;
+      transition: opacity 0.3s;
     }
-    .glyph span.dim { opacity: 0.12; }
-    .glyph span.mid { opacity: 0.4; }
+    .glyph span.dim    { opacity: 0.12; }
+    .glyph span.mid    { opacity: 0.4; }
     .glyph span.bright { opacity: 1; }
 
-    /* ── Header ── */
     .header {
       width: 100%;
       max-width: 520px;
@@ -92,7 +87,6 @@
       margin-top: 8px;
     }
 
-    /* ── Countdown grid ── */
     .countdown {
       width: 100%;
       max-width: 520px;
@@ -124,14 +118,12 @@
       text-align: center;
     }
 
-    .number.flip {
-      animation: numflip 0.25s ease;
-    }
+    .number.flip { animation: numflip 0.25s ease; }
     @keyframes numflip {
-      0%   { opacity: 1; transform: translateY(0px); }
-      45%  { opacity: 0; transform: translateY(-5px); }
-      55%  { opacity: 0; transform: translateY(5px); }
-      100% { opacity: 1; transform: translateY(0px); }
+      0%  { opacity: 1; transform: translateY(0); }
+      45% { opacity: 0; transform: translateY(-5px); }
+      55% { opacity: 0; transform: translateY(5px); }
+      100%{ opacity: 1; transform: translateY(0); }
     }
 
     .unit-label {
@@ -143,7 +135,6 @@
       color: var(--muted);
     }
 
-    /* ── Progress ── */
     .progress-wrap {
       width: 100%;
       max-width: 520px;
@@ -176,11 +167,10 @@
       font-size: 11px;
       color: var(--muted);
       white-space: nowrap;
-      min-width: 40px;
+      min-width: 42px;
       text-align: right;
     }
 
-    /* ── Summer msg ── */
     .summer-msg {
       display: none;
       font-family: 'DM Mono', monospace;
@@ -191,7 +181,6 @@
       margin-bottom: 40px;
     }
 
-    /* ── Section eyebrow ── */
     .section-eye {
       width: 100%;
       max-width: 520px;
@@ -213,7 +202,6 @@
       background: var(--border);
     }
 
-    /* ── Chat ── */
     .chat {
       width: 100%;
       max-width: 520px;
@@ -225,8 +213,35 @@
       flex-direction: column;
     }
 
+    .chat-status {
+      padding: 12px 16px !important;
+      font-size: 11px !important;
+      padding: 8px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @keyframes ping {
+      0%   { box-shadow: 0 0 0 0 #4caf5066; }
+      70%  { box-shadow: 0 0 0 8px #4caf5000; }
+      100% { box-shadow: 0 0 0 0 #4caf5000; }
+    }
+    .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #555;
+      transition: background 0.3s;
+    }
+    .status-dot.live { background: #4caf50; animation: ping 1.8s ease infinite; }
+    .status-dot.error { background: #f44336; }
+
     .chat-messages {
-      flex: 1;
       height: 280px;
       overflow-y: auto;
       padding: 20px;
@@ -290,12 +305,11 @@
       border: 1px solid var(--border);
     }
 
-    /* ── Input area ── */
     .chat-inputs {
       border-top: 1px solid var(--border);
       background: #111;
       display: flex;
-      align-items: center;
+      align-items: stretch;
     }
 
     .chat-inputs input {
@@ -309,21 +323,18 @@
       letter-spacing: 0.04em;
       padding: 16px;
       caret-color: var(--text);
+      min-width: 0;
     }
 
-    .chat-inputs input::placeholder {
-      color: var(--muted);
-    }
+    .chat-inputs input::placeholder { color: var(--muted); }
 
     .name-input {
       width: 110px;
       flex-shrink: 0;
-      border-right: 1px solid var(--border) !important;
+      border-right: 1px solid var(--border);
     }
 
-    .msg-input {
-      flex: 1;
-    }
+    .msg-input { flex: 1; }
 
     .send-btn {
       background: none;
@@ -339,20 +350,10 @@
       cursor: pointer;
       transition: color 0.15s;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .send-btn:hover { color: var(--text); }
 
-    .chat-footer-note {
-      border-top: 1px solid var(--border);
-      padding: 8px 16px;
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      color: #333;
-      background: #0f0f0f;
-    }
-
-    /* ── Responsive ── */
     @media (max-width: 440px) {
       .countdown { grid-template-columns: repeat(2, 1fr); }
       .name-input { width: 80px; }
@@ -361,20 +362,11 @@
 </head>
 <body>
 
-<!-- Nothing-style glyph -->
 <div class="glyph">
-  <span class="bright"></span>
-  <span class="dim"></span>
-  <span class="mid"></span>
-  <span class="dim"></span>
-  <span class="bright"></span>
-  <span class="dim"></span>
-  <span class="mid"></span>
-  <span class="bright"></span>
-  <span class="dim"></span>
-  <span class="mid"></span>
-  <span class="dim"></span>
-  <span class="bright"></span>
+  <span class="bright"></span><span class="dim"></span><span class="mid"></span>
+  <span class="dim"></span><span class="bright"></span><span class="dim"></span>
+  <span class="mid"></span><span class="bright"></span><span class="dim"></span>
+  <span class="mid"></span><span class="dim"></span><span class="bright"></span>
 </div>
 
 <div class="header">
@@ -386,22 +378,10 @@
 <div class="summer-msg" id="summerMsg">it's summer.</div>
 
 <div class="countdown" id="countdown">
-  <div class="unit">
-    <div class="number" id="days">00</div>
-    <div class="unit-label">Days</div>
-  </div>
-  <div class="unit">
-    <div class="number" id="hours">00</div>
-    <div class="unit-label">Hours</div>
-  </div>
-  <div class="unit">
-    <div class="number" id="minutes">00</div>
-    <div class="unit-label">Minutes</div>
-  </div>
-  <div class="unit">
-    <div class="number" id="seconds">00</div>
-    <div class="unit-label">Seconds</div>
-  </div>
+  <div class="unit"><div class="number" id="days">00</div><div class="unit-label">Days</div></div>
+  <div class="unit"><div class="number" id="hours">00</div><div class="unit-label">Hours</div></div>
+  <div class="unit"><div class="number" id="minutes">00</div><div class="unit-label">Minutes</div></div>
+  <div class="unit"><div class="number" id="seconds">00</div><div class="unit-label">Seconds</div></div>
 </div>
 
 <div class="progress-wrap" id="progressWrap">
@@ -414,29 +394,57 @@
 <div class="section-eye">Global Chat</div>
 
 <div class="chat">
-  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-status">
+    <div class="status-dot" id="statusDot"></div>
+    <span id="statusText">connecting...</span>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="empty-state" id="emptyState">no messages yet.</div>
+  </div>
   <div class="chat-inputs">
     <input class="name-input" id="nameInput" type="text" placeholder="your name" maxlength="18" autocomplete="off"/>
     <input class="msg-input" id="msgInput" type="text" placeholder="say something..." maxlength="200" autocomplete="off"/>
     <button class="send-btn" id="sendBtn">send</button>
   </div>
-  <div class="chat-footer-note">messages saved locally · shared across tabs</div>
 </div>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getDatabase, ref, push, onValue, serverTimestamp, query, limitToLast }
+    from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+
+  // ── Firebase config ──
+  const firebaseConfig = {
+    apiKey: "AIzaSyCtNKRUJ4B7ktgun7iBBJs7WM6UQ4NX1Ws",
+    authDomain: "project-chat-9fa39.firebaseapp.com",
+    databaseURL: "https://project-chat-9fa39-default-rtdb.firebaseio.com",
+    projectId: "project-chat-9fa39",
+    storageBucket: "project-chat-9fa39.firebasestorage.app",
+    messagingSenderId: "443248777092",
+    appId: "1:443248777092:web:fd8492e69628f767ef6fd1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  const msgsRef = query(ref(db, 'messages'), limitToLast(60));
+
+  // ── Status indicator ──
+  const dot      = document.getElementById('statusDot');
+  const statusTx = document.getElementById('statusText');
+
   // ── Glyph pulse ──
   const glyphDots = document.querySelectorAll('.glyph span');
   setInterval(() => {
     const i = Math.floor(Math.random() * glyphDots.length);
-    const dot = glyphDots[i];
-    const prev = dot.style.opacity || '';
-    dot.style.opacity = '0.7';
-    setTimeout(() => { dot.style.opacity = prev; }, 350);
+    const d = glyphDots[i];
+    const was = d.style.opacity;
+    d.style.opacity = '0.7';
+    setTimeout(() => { d.style.opacity = was; }, 350);
   }, 700);
 
   // ── Countdown ──
-  const TARGET = new Date('2026-06-26T14:20:00');
-  const START  = new Date('2025-09-05T08:00:00');
+  const TARGET = new Date(2026, 5, 26, 14, 20, 0); // June 26 2026 2:20 PM local time
+  const START  = new Date(2025, 8,  5,  8,  0, 0); // Sep 5 2025 local time
   const TOTAL  = TARGET - START;
 
   const numEls = {
@@ -460,59 +468,58 @@
       return;
     }
 
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-
-    const vals = { days: pad(d), hours: pad(h), minutes: pad(m), seconds: pad(s) };
+    const vals = {
+      days:    pad(Math.floor(diff / 86400000)),
+      hours:   pad(Math.floor((diff % 86400000) / 3600000)),
+      minutes: pad(Math.floor((diff % 3600000) / 60000)),
+      seconds: pad(Math.floor((diff % 60000) / 1000)),
+    };
 
     for (const k in vals) {
       if (vals[k] !== prev[k]) {
         numEls[k].textContent = vals[k];
         numEls[k].classList.remove('flip');
-        void numEls[k].offsetWidth; // reflow
+        void numEls[k].offsetWidth;
         numEls[k].classList.add('flip');
       }
     }
     prev = { ...vals };
 
-    const elapsed = now - START;
-    const pct = Math.min(100, Math.max(0, (elapsed / TOTAL) * 100));
+    const pct = Math.min(100, Math.max(0, ((now - START) / TOTAL) * 100));
     document.getElementById('progressFill').style.width = pct.toFixed(1) + '%';
     document.getElementById('pct').textContent = pct.toFixed(1) + '%';
   }
 
+  // Run immediately and every second
   tick();
-  setInterval(tick, 1000);
+  const timer = setInterval(tick, 1000);
+  window.addEventListener('focus', tick); // re-sync when tab regains focus
 
-  // ── Chat ──
-  const CHAT_KEY = 'summer_countdown_chat_v3';
-  const MAX_MSGS = 60;
+  // ── Chat render ──
+  let lastCount = 0;
 
-  function loadMsgs() {
-    try { return JSON.parse(localStorage.getItem(CHAT_KEY) || '[]'); }
-    catch { return []; }
-  }
+  onValue(msgsRef, (snapshot) => {
+    dot.classList.add('live');
+    statusTx.textContent = 'live · global';
 
-  function saveMsgs(msgs) {
-    localStorage.setItem(CHAT_KEY, JSON.stringify(msgs.slice(-MAX_MSGS)));
-  }
-
-  function renderChat() {
-    const msgs   = loadMsgs();
     const box    = document.getElementById('chatMessages');
     const myName = document.getElementById('nameInput').value.trim().toLowerCase();
+    const data   = snapshot.val();
 
     box.innerHTML = '';
 
-    if (msgs.length === 0) {
+    if (!data) {
       const e = document.createElement('div');
       e.className = 'empty-state';
       e.textContent = 'no messages yet.';
       box.appendChild(e);
+      lastCount = 0;
       return;
     }
+
+    const msgs = Object.values(data);
+    const isNew = msgs.length > lastCount;
+    lastCount = msgs.length;
 
     msgs.forEach(m => {
       const isMe = myName && m.name.toLowerCase() === myName;
@@ -533,9 +540,13 @@
       box.appendChild(wrap);
     });
 
-    box.scrollTop = box.scrollHeight;
-  }
+    if (isNew) box.scrollTop = box.scrollHeight;
+  }, (err) => {
+    dot.classList.remove('live'); dot.classList.add('error'); statusTx.textContent = 'connection error — check firebase rules';
+    console.error(err);
+  });
 
+  // ── Send ──
   function sendMessage() {
     const nameEl = document.getElementById('nameInput');
     const msgEl  = document.getElementById('msgInput');
@@ -543,15 +554,14 @@
     const text   = msgEl.value.trim();
     if (!text) return;
 
-    const msgs = loadMsgs();
-    msgs.push({
+    push(ref(db, 'messages'), {
       name,
       text,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      ts: serverTimestamp(),
     });
-    saveMsgs(msgs);
+
     msgEl.value = '';
-    renderChat();
   }
 
   document.getElementById('sendBtn').addEventListener('click', sendMessage);
@@ -560,15 +570,11 @@
   });
 
   // Persist name
-  const savedName = localStorage.getItem('summer_chat_name_v2');
-  if (savedName) document.getElementById('nameInput').value = savedName;
+  const saved = localStorage.getItem('summer_name_v3');
+  if (saved) document.getElementById('nameInput').value = saved;
   document.getElementById('nameInput').addEventListener('input', e => {
-    localStorage.setItem('summer_chat_name_v2', e.target.value);
-    renderChat(); // re-render so "me" bubbles update
+    localStorage.setItem('summer_name_v3', e.target.value);
   });
-
-  renderChat();
-  setInterval(renderChat, 3000);
 </script>
 </body>
 </html>
