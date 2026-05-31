@@ -372,7 +372,7 @@
 <div class="header">
   <div class="eyebrow">Countdown</div>
   <h1>Summer Break</h1>
-  <div class="sub">Jun 26, 2026 · 2:20 PM</div>
+  <div class="sub" id="currentDate"></div>
 </div>
 
 <div class="summer-msg" id="summerMsg">it's summer.</div>
@@ -432,6 +432,16 @@
   const dot      = document.getElementById('statusDot');
   const statusTx = document.getElementById('statusText');
 
+  // ── Live current date ──
+  function updateDate() {
+    const now = new Date();
+    const str = now.toLocaleDateString([], { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })
+      + ' · ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('currentDate').textContent = str + '  ·  target Jun 26, 2026 2:20 PM';
+  }
+  updateDate();
+  setInterval(updateDate, 1000);
+
   // ── Glyph pulse ──
   const glyphDots = document.querySelectorAll('.glyph span');
   setInterval(() => {
@@ -455,24 +465,31 @@
   };
   let prev = {};
 
-  function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
+  function pad(n) { return String(n).padStart(2, '0'); }
 
   function tick() {
     const now  = new Date();
     const diff = TARGET - now;
 
     if (diff <= 0) {
+      clearInterval(timer);
       document.getElementById('countdown').style.display = 'none';
       document.getElementById('progressWrap').style.display = 'none';
       document.getElementById('summerMsg').style.display = 'block';
       return;
     }
 
+    const totalSecs = Math.floor(diff / 1000);
+    const d = Math.floor(totalSecs / 86400);
+    const h = Math.floor((totalSecs % 86400) / 3600);
+    const m = Math.floor((totalSecs % 3600) / 60);
+    const s = totalSecs % 60;
+
     const vals = {
-      days:    pad(Math.floor(diff / 86400000)),
-      hours:   pad(Math.floor((diff % 86400000) / 3600000)),
-      minutes: pad(Math.floor((diff % 3600000) / 60000)),
-      seconds: pad(Math.floor((diff % 60000) / 1000)),
+      days:    pad(d),
+      hours:   pad(h),
+      minutes: pad(m),
+      seconds: pad(s),
     };
 
     for (const k in vals) {
@@ -576,5 +593,8 @@
     localStorage.setItem('summer_name_v3', e.target.value);
   });
 </script>
+  <div style="margin-top: 48px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: #333; text-align: center;">
+    &lt;/&gt; CODED BY BERK :D 
+  </div>
 </body>
 </html>
