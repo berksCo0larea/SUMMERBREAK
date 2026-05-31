@@ -7,360 +7,56 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0d0d0d;
-      --card: #161616;
-      --border: #2a2a2a;
-      --text: #f0f0f0;
-      --muted: #555;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 56px 20px 80px;
-    }
-
-    .glyph {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 52px;
-    }
-    .glyph span {
-      display: block;
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: #fff;
-      transition: opacity 0.3s;
-    }
-    .glyph span.dim    { opacity: 0.12; }
-    .glyph span.mid    { opacity: 0.4; }
-    .glyph span.bright { opacity: 1; }
-
-    .header {
-      width: 100%;
-      max-width: 520px;
-      margin-bottom: 40px;
-    }
-
-    .eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .eyebrow::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    h1 {
-      font-family: 'DM Mono', monospace;
-      font-size: clamp(2rem, 6vw, 2.8rem);
-      font-weight: 300;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-    }
-
-    .sub {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      margin-top: 8px;
-    }
-
-    .countdown {
-      width: 100%;
-      max-width: 520px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .unit {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 28px 12px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .number {
-      font-family: 'DM Mono', monospace;
-      font-size: clamp(2.2rem, 7vw, 3.2rem);
-      font-weight: 300;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      line-height: 1;
-      min-width: 2ch;
-      text-align: center;
-    }
-
-    .number.flip { animation: numflip 0.25s ease; }
-    @keyframes numflip {
-      0%  { opacity: 1; transform: translateY(0); }
-      45% { opacity: 0; transform: translateY(-5px); }
-      55% { opacity: 0; transform: translateY(5px); }
-      100%{ opacity: 1; transform: translateY(0); }
-    }
-
-    .unit-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .progress-wrap {
-      width: 100%;
-      max-width: 520px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 40px;
-    }
-
-    .progress-track {
-      flex: 1;
-      height: 2px;
-      background: var(--border);
-      border-radius: 2px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: var(--text);
-      border-radius: 2px;
-      transition: width 1s linear;
-    }
-
-    .progress-pct {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      white-space: nowrap;
-      min-width: 42px;
-      text-align: right;
-    }
-
-    .summer-msg {
-      display: none;
-      font-family: 'DM Mono', monospace;
-      font-size: 1.8rem;
-      font-weight: 300;
-      color: var(--text);
-      letter-spacing: 0.06em;
-      margin-bottom: 40px;
-    }
-
-    .section-eye {
-      width: 100%;
-      max-width: 520px;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .section-eye::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .chat {
-      width: 100%;
-      max-width: 520px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .chat-status {
-      padding: 12px 16px !important;
-      font-size: 11px !important;
-      padding: 8px 16px;
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    @keyframes ping {
-      0%   { box-shadow: 0 0 0 0 #4caf5066; }
-      70%  { box-shadow: 0 0 0 8px #4caf5000; }
-      100% { box-shadow: 0 0 0 0 #4caf5000; }
-    }
-    .status-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: #555;
-      transition: background 0.3s;
-    }
-    .status-dot.live { background: #4caf50; animation: ping 1.8s ease infinite; }
-    .status-dot.error { background: #f44336; }
-
-    .chat-messages {
-      height: 280px;
-      overflow-y: auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .chat-messages::-webkit-scrollbar { width: 3px; }
-    .chat-messages::-webkit-scrollbar-track { background: transparent; }
-    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-    .empty-state {
-      margin: auto;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .msg {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      max-width: 75%;
-      animation: msgIn 0.2s ease both;
-    }
-    @keyframes msgIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: none; }
-    }
-
-    .msg.me    { align-self: flex-end; align-items: flex-end; }
-    .msg.other { align-self: flex-start; align-items: flex-start; }
-
-    .msg-name {
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .msg-bubble {
-      padding: 10px 14px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 300;
-      line-height: 1.55;
-    }
-
-    .msg.me .msg-bubble {
-      background: var(--text);
-      color: #0d0d0d;
-    }
-
-    .msg.other .msg-bubble {
-      background: #1f1f1f;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .chat-inputs {
-      border-top: 1px solid var(--border);
-      background: #111;
-      display: flex;
-      align-items: stretch;
-    }
-
-    .chat-inputs input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      font-weight: 300;
-      letter-spacing: 0.04em;
-      padding: 16px;
-      caret-color: var(--text);
-      min-width: 0;
-    }
-
-    .chat-inputs input::placeholder { color: var(--muted); }
-
-    .name-input {
-      width: 110px;
-      flex-shrink: 0;
-      border-right: 1px solid var(--border);
-    }
-
-    .msg-input { flex: 1; }
-
-    .send-btn {
-      background: none;
-      border: none;
-      border-left: 1px solid var(--border);
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 16px 18px;
-      cursor: pointer;
-      transition: color 0.15s;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .send-btn:hover { color: var(--text); }
-
-    @media (max-width: 440px) {
-      .countdown { grid-template-columns: repeat(2, 1fr); }
-      .name-input { width: 80px; }
-    }
+    :root { --bg:#0d0d0d; --card:#161616; --border:#2a2a2a; --text:#f0f0f0; --muted:#555; }
+    body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-weight:300; -webkit-font-smoothing:antialiased; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:56px 20px 80px; position:relative; }
+    #spaceCanvas { position:fixed; inset:0; z-index:0; width:100%; height:100%; }
+    .glyph,.header,.summer-msg,.countdown,.progress-wrap,.section-eye,.chat,#footerCredit { position:relative; z-index:1; }
+    .glyph { display:flex; gap:6px; margin-bottom:52px; }
+    .glyph span { display:block; width:5px; height:5px; border-radius:50%; background:#fff; transition:opacity 0.3s; }
+    .glyph span.dim{opacity:.12} .glyph span.mid{opacity:.4} .glyph span.bright{opacity:1}
+    .header { width:100%; max-width:520px; margin-bottom:40px; }
+    .eyebrow { font-family:'DM Mono',monospace; font-size:10px; font-weight:500; letter-spacing:.25em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; align-items:center; gap:12px; }
+    .eyebrow::after { content:''; flex:1; height:1px; background:var(--border); }
+    h1 { font-family:'DM Mono',monospace; font-size:clamp(2rem,6vw,2.8rem); font-weight:300; color:var(--text); letter-spacing:-.02em; line-height:1.1; }
+    .sub { font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); letter-spacing:.08em; margin-top:8px; }
+    .countdown { width:100%; max-width:520px; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:10px; }
+    .unit { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:28px 12px 20px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+    .number { font-family:'DM Mono',monospace; font-size:clamp(2.2rem,7vw,3.2rem); font-weight:300; color:var(--text); letter-spacing:-.02em; line-height:1; min-width:2ch; text-align:center; }
+    .number.flip { animation:numflip .25s ease; }
+    @keyframes numflip { 0%{opacity:1;transform:translateY(0)} 45%{opacity:0;transform:translateY(-5px)} 55%{opacity:0;transform:translateY(5px)} 100%{opacity:1;transform:translateY(0)} }
+    .unit-label { font-family:'DM Mono',monospace; font-size:9px; font-weight:500; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+    .progress-wrap { width:100%; max-width:520px; background:var(--card); border:1px solid var(--border); border-radius:8px; padding:18px 20px; display:flex; align-items:center; gap:16px; margin-bottom:40px; }
+    .progress-track { flex:1; height:2px; background:var(--border); border-radius:2px; }
+    .progress-fill { height:100%; background:var(--text); border-radius:2px; transition:width 1s linear; }
+    .progress-pct { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); white-space:nowrap; min-width:42px; text-align:right; }
+    .summer-msg { display:none; font-family:'DM Mono',monospace; font-size:1.8rem; font-weight:300; color:var(--text); letter-spacing:.06em; margin-bottom:40px; }
+    .section-eye { width:100%; max-width:520px; font-family:'DM Mono',monospace; font-size:10px; font-weight:500; letter-spacing:.25em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; display:flex; align-items:center; gap:12px; }
+    .section-eye::after { content:''; flex:1; height:1px; background:var(--border); }
+    .chat { width:100%; max-width:520px; background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; display:flex; flex-direction:column; }
+    .chat-status { padding:8px 16px; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.14em; color:var(--muted); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+    @keyframes ping { 0%{box-shadow:0 0 0 0 #4caf5066} 70%{box-shadow:0 0 0 8px #4caf5000} 100%{box-shadow:0 0 0 0 #4caf5000} }
+    .status-dot { width:10px; height:10px; border-radius:50%; background:#555; transition:background .3s; }
+    .status-dot.live{background:#4caf50;animation:ping 1.8s ease infinite} .status-dot.error{background:#f44336}
+    .chat-messages { height:280px; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:14px; }
+    .chat-messages::-webkit-scrollbar{width:3px} .chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+    .empty-state { margin:auto; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.14em; color:var(--muted); text-align:center; }
+    .msg { display:flex; flex-direction:column; gap:4px; max-width:75%; animation:msgIn .2s ease both; }
+    @keyframes msgIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+    .msg.me{align-self:flex-end;align-items:flex-end} .msg.other{align-self:flex-start;align-items:flex-start}
+    .msg-name { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+    .msg-bubble { padding:10px 14px; border-radius:6px; font-size:13px; font-weight:300; line-height:1.55; }
+    .msg.me .msg-bubble{background:var(--text);color:#0d0d0d} .msg.other .msg-bubble{background:#1f1f1f;color:var(--text);border:1px solid var(--border)}
+    .chat-inputs { border-top:1px solid var(--border); background:#111; display:flex; align-items:stretch; }
+    .chat-inputs input { background:transparent; border:none; outline:none; color:var(--text); font-family:'DM Mono',monospace; font-size:12px; font-weight:300; letter-spacing:.04em; padding:16px; caret-color:var(--text); min-width:0; }
+    .chat-inputs input::placeholder{color:var(--muted)}
+    .name-input{width:110px;flex-shrink:0;border-right:1px solid var(--border)} .msg-input{flex:1}
+    .send-btn { background:none; border:none; border-left:1px solid var(--border); color:var(--muted); font-family:'DM Mono',monospace; font-size:10px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; padding:16px 18px; cursor:pointer; transition:color .15s; white-space:nowrap; flex-shrink:0; }
+    .send-btn:hover{color:var(--text)}
+    @media(max-width:440px){.countdown{grid-template-columns:repeat(2,1fr)}.name-input{width:80px}}
   </style>
 </head>
 <body>
+<canvas id="spaceCanvas"></canvas>
 
 <div class="glyph">
   <span class="bright"></span><span class="dim"></span><span class="mid"></span>
@@ -368,233 +64,369 @@
   <span class="mid"></span><span class="bright"></span><span class="dim"></span>
   <span class="mid"></span><span class="dim"></span><span class="bright"></span>
 </div>
-
 <div class="header">
   <div class="eyebrow">Countdown</div>
   <h1>Summer Break</h1>
   <div class="sub" id="currentDate"></div>
 </div>
-
 <div class="summer-msg" id="summerMsg">it's summer.</div>
-
 <div class="countdown" id="countdown">
   <div class="unit"><div class="number" id="days">00</div><div class="unit-label">Days</div></div>
   <div class="unit"><div class="number" id="hours">00</div><div class="unit-label">Hours</div></div>
   <div class="unit"><div class="number" id="minutes">00</div><div class="unit-label">Minutes</div></div>
   <div class="unit"><div class="number" id="seconds">00</div><div class="unit-label">Seconds</div></div>
 </div>
-
 <div class="progress-wrap" id="progressWrap">
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
-  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div class="progress-pct" id="pct">0.0%</div>
 </div>
-
 <div class="section-eye">Global Chat</div>
-
 <div class="chat">
   <div class="chat-status">
     <div class="status-dot" id="statusDot"></div>
     <span id="statusText">connecting...</span>
   </div>
   <div class="chat-messages" id="chatMessages">
-    <div class="empty-state" id="emptyState">no messages yet.</div>
+    <div class="empty-state">no messages yet.</div>
   </div>
   <div class="chat-inputs">
     <input class="name-input" id="nameInput" type="text" placeholder="your name" maxlength="18" autocomplete="off"/>
-    <input class="msg-input" id="msgInput" type="text" placeholder="say something..." maxlength="200" autocomplete="off"/>
-    <button class="send-btn" id="sendBtn">send</button>
+    <input class="msg-input"  id="msgInput"  type="text" placeholder="say something..." maxlength="200" autocomplete="off"/>
+    <button class="send-btn"  id="sendBtn">send</button>
   </div>
 </div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('spaceCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // ── Stars ──
+  const stars = Array.from({ length: 320 }, () => ({
+    x: Math.random(), y: Math.random(),
+    r: Math.random() * 1.3 + 0.2,
+    alpha: Math.random() * 0.65 + 0.15,
+    phase: Math.random() * Math.PI * 2,
+    spd: Math.random() * 0.013 + 0.003,
+  }));
+
+  // ── Nebulae ──
+  const nebulae = [
+    { x:.15, y:.22, rx:260, ry:140, hue:185, sat:75, a:.07 },
+    { x:.78, y:.58, rx:200, ry:120, hue:150, sat:65, a:.06 },
+    { x:.50, y:.88, rx:310, ry:100, hue:165, sat:60, a:.05 },
+    { x:.88, y:.14, rx:170, ry:90,  hue:200, sat:55, a:.055 },
+  ];
+
+  let frame = 0;
+
+  // ── Draw jet at origin pointing RIGHT ──
+  function drawJet(ctx, sc, label) {
+    ctx.save();
+    ctx.scale(sc, sc);
+
+    // Engine glow
+    const glowR = 18 + Math.sin(frame * 0.18) * 3;
+    const eg = ctx.createRadialGradient(-32, 0, 0, -32, 0, glowR * 2.8);
+    eg.addColorStop(0,   'rgba(180,255,120,.95)');
+    eg.addColorStop(.15, 'rgba(100,255,80,.8)');
+    eg.addColorStop(.4,  'rgba(20,200,60,.35)');
+    eg.addColorStop(1,   'rgba(0,180,60,0)');
+    ctx.beginPath(); ctx.arc(-32, 0, glowR * 2.8, 0, Math.PI * 2);
+    ctx.fillStyle = eg; ctx.fill();
+
+    // Delta wings
+    const wingPts = [[10,0],[-20,38],[-50,40],[-38,4]];
+    ctx.beginPath(); ctx.moveTo(...wingPts[0]);
+    wingPts.slice(1).forEach(p => ctx.lineTo(...p)); ctx.closePath();
+    const wg1 = ctx.createLinearGradient(10,0,-50,40);
+    wg1.addColorStop(0,'#1de8a0'); wg1.addColorStop(.5,'#0fb870'); wg1.addColorStop(1,'#084d30');
+    ctx.fillStyle = wg1; ctx.fill();
+    ctx.strokeStyle='rgba(80,255,160,.25)'; ctx.lineWidth=.8; ctx.stroke();
+
+    ctx.beginPath(); ctx.moveTo(10,0); ctx.lineTo(-20,-38); ctx.lineTo(-50,-40); ctx.lineTo(-38,-4); ctx.closePath();
+    const wg2 = ctx.createLinearGradient(10,0,-50,-40);
+    wg2.addColorStop(0,'#1de8a0'); wg2.addColorStop(.5,'#0fb870'); wg2.addColorStop(1,'#084d30');
+    ctx.fillStyle = wg2; ctx.fill();
+    ctx.strokeStyle='rgba(80,255,160,.25)'; ctx.lineWidth=.8; ctx.stroke();
+
+    ctx.beginPath(); ctx.moveTo(10,0); ctx.lineTo(-50,40); ctx.moveTo(10,0); ctx.lineTo(-50,-40);
+    ctx.strokeStyle='rgba(100,255,180,.45)'; ctx.lineWidth=1.2; ctx.stroke();
+
+    // Canard stubs
+    [[30,0,18,14,10,10,20,0],[30,0,18,-14,10,-10,20,0]].forEach(p => {
+      ctx.beginPath(); ctx.moveTo(p[0],p[1]); ctx.lineTo(p[2],p[3]); ctx.lineTo(p[4],p[5]); ctx.lineTo(p[6],p[7]); ctx.closePath();
+      ctx.fillStyle='#0d8a55'; ctx.fill();
+    });
+
+    // V-tail
+    [[[-38,0],[-52,-26],[-60,-18],[-44,0]],[[-38,0],[-52,26],[-60,18],[-44,0]]].forEach(pts => {
+      ctx.beginPath(); ctx.moveTo(...pts[0]); pts.slice(1).forEach(p=>ctx.lineTo(...p)); ctx.closePath();
+      ctx.fillStyle='#0a7048'; ctx.strokeStyle='rgba(80,255,160,.2)'; ctx.lineWidth=.8; ctx.fill(); ctx.stroke();
+    });
+
+    // Fuselage
+    ctx.beginPath();
+    ctx.moveTo(60,0);
+    ctx.bezierCurveTo(55,-5,40,-9,20,-9); ctx.lineTo(-38,-9);
+    ctx.bezierCurveTo(-50,-9,-58,-5,-60,0);
+    ctx.bezierCurveTo(-58,5,-50,9,-38,9); ctx.lineTo(20,9);
+    ctx.bezierCurveTo(40,9,55,5,60,0); ctx.closePath();
+    const fg = ctx.createLinearGradient(0,-9,0,9);
+    fg.addColorStop(0,'#1de8a0'); fg.addColorStop(.35,'#0db870');
+    fg.addColorStop(.65,'#0a9050'); fg.addColorStop(1,'#073d28');
+    ctx.fillStyle=fg; ctx.fill();
+    ctx.strokeStyle='rgba(100,255,180,.3)'; ctx.lineWidth=.8; ctx.stroke();
+
+    // Panel lines
+    ctx.beginPath(); ctx.moveTo(50,-4); ctx.lineTo(-35,-4); ctx.moveTo(50,4); ctx.lineTo(-35,4);
+    ctx.strokeStyle='rgba(0,0,0,.35)'; ctx.lineWidth=.7; ctx.stroke();
+
+    // Top highlight
+    ctx.beginPath(); ctx.moveTo(55,-2); ctx.bezierCurveTo(48,-7,30,-8,10,-8);
+    ctx.strokeStyle='rgba(180,255,220,.5)'; ctx.lineWidth=1; ctx.stroke();
+
+    // Cockpit
+    ctx.beginPath(); ctx.ellipse(32,-6,16,7,-.25,0,Math.PI*2);
+    const cg=ctx.createRadialGradient(28,-9,1,32,-6,14);
+    cg.addColorStop(0,'rgba(200,255,240,.85)'); cg.addColorStop(.4,'rgba(80,200,150,.55)'); cg.addColorStop(1,'rgba(0,60,30,.7)');
+    ctx.fillStyle=cg; ctx.fill(); ctx.strokeStyle='rgba(100,255,180,.4)'; ctx.lineWidth=1; ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(29,-9,6,2.5,-.4,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,.35)'; ctx.fill();
+
+    // Nozzle
+    ctx.beginPath(); ctx.ellipse(-60,0,5,9,0,0,Math.PI*2);
+    const ng=ctx.createRadialGradient(-60,0,0,-60,0,9);
+    ng.addColorStop(0,'rgba(200,255,120,1)'); ng.addColorStop(.4,'rgba(80,255,80,.8)'); ng.addColorStop(1,'rgba(0,100,40,.2)');
+    ctx.fillStyle=ng; ctx.fill();
+    for(let i=0;i<3;i++){
+      ctx.beginPath(); ctx.ellipse(-60+i*2.5,0,4-i*.5,7-i,0,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(80,255,120,${.6-i*.15})`; ctx.lineWidth=.8; ctx.stroke();
+    }
+
+    // ── Label printed on fuselage ──
+    if (label) {
+      ctx.save();
+      // Clamp to fuselage region — small stencil font
+      ctx.font = 'bold 7.5px DM Mono, monospace';
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      // Slight dark shadow for contrast
+      ctx.shadowColor = 'rgba(0,0,0,0.8)';
+      ctx.shadowBlur = 3;
+      ctx.fillStyle = 'rgba(0, 30, 15, 0.85)';
+      ctx.fillText('CODED BY BERK', -8, 1.5);
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = 'rgba(180, 255, 210, 0.9)';
+      ctx.fillText('CODED BY BERK', -8, 1);
+      ctx.restore();
+    }
+
+    ctx.restore();
+  }
+
+  // ── Speed lines trail ──
+  function drawSpeedLines(trail) {
+    if (trail.length < 6) return;
+    const offsets   = [0, -5, 5];
+    const opacities = [.55, .28, .20];
+    const widths    = [2.5, 1.2, .8];
+    for (let li = 0; li < 3; li++) {
+      const len = trail.length;
+      for (let i = 1; i < len; i++) {
+        const t = i / len;
+        const p = trail[i], pp = trail[i-1];
+        // perpendicular offset (trail angle)
+        const dx = p.x - pp.x, dy = p.y - pp.y;
+        const mag = Math.sqrt(dx*dx+dy*dy) || 1;
+        const px = -dy/mag * offsets[li], py = dx/mag * offsets[li];
+        const r=Math.round(20+t*60), g=Math.round(220-t*30), b=Math.round(50+(1-t)*180);
+        ctx.beginPath();
+        ctx.moveTo(pp.x+px, pp.y+py);
+        ctx.lineTo(p.x+px,  p.y+py);
+        ctx.strokeStyle = `rgba(${r},${g},${b},${t*opacities[li]})`;
+        ctx.lineWidth = widths[li] * (.3 + t*.7);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // ── Jet factory — random direction, wraps around edges ──
+  function randomAngle() {
+    // pick from 8 rough directions with some spread so it looks varied
+    const base = Math.floor(Math.random() * 8) * (Math.PI / 4);
+    return base + (Math.random() - .5) * .45;
+  }
+
+  function makeJet(sayBerk) {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      angle: randomAngle(),
+      speed: 1.6 + Math.random() * 2.8,
+      scale: .45 + Math.random() * .65,
+      sayBerk,
+      trail: [],
+    };
+  }
+
+  // Fixed pool — never deleted, just wrap around
+  const POOL = 7;
+  const jets = Array.from({ length: POOL }, (_, i) => makeJet(i < 2));
+
+  // ── Main loop ──
+  function draw() {
+    frame++;
+
+    const bg = ctx.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,Math.max(W,H)*.85);
+    bg.addColorStop(0,'#071510'); bg.addColorStop(.4,'#050e0a'); bg.addColorStop(1,'#020706');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+
+    for (const n of nebulae) {
+      const g=ctx.createRadialGradient(n.x*W,n.y*H,0,n.x*W,n.y*H,Math.max(n.rx,n.ry));
+      g.addColorStop(0,`hsla(${n.hue},${n.sat}%,50%,${n.a})`);
+      g.addColorStop(.5,`hsla(${n.hue},${n.sat}%,35%,${n.a*.4})`);
+      g.addColorStop(1,`hsla(${n.hue},${n.sat}%,25%,0)`);
+      ctx.save(); ctx.translate(n.x*W,n.y*H); ctx.scale(1,n.ry/n.rx);
+      ctx.beginPath(); ctx.arc(0,0,n.rx,0,Math.PI*2);
+      ctx.fillStyle=g; ctx.fill(); ctx.restore();
+    }
+
+    for (const s of stars) {
+      s.phase += s.spd;
+      const a = s.alpha * (.55 + .45*Math.sin(s.phase));
+      ctx.beginPath(); ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,240,220,${a})`; ctx.fill();
+      if (s.r > 1.0) {
+        const len=s.r*5;
+        ctx.strokeStyle=`rgba(150,255,180,${a*.25})`; ctx.lineWidth=.5;
+        ctx.beginPath();
+        ctx.moveTo(s.x*W-len,s.y*H); ctx.lineTo(s.x*W+len,s.y*H);
+        ctx.moveTo(s.x*W,s.y*H-len); ctx.lineTo(s.x*W,s.y*H+len);
+        ctx.stroke();
+      }
+    }
+
+    const PAD = 140;
+    for (const j of jets) {
+      j.x += Math.cos(j.angle) * j.speed;
+      j.y += Math.sin(j.angle) * j.speed;
+
+      // Wrap-around: when the jet exits one side it re-enters the opposite
+      if (j.x >  W + PAD) { j.x = -PAD; j.trail = []; }
+      if (j.x < -PAD)      { j.x =  W + PAD; j.trail = []; }
+      if (j.y >  H + PAD) { j.y = -PAD; j.trail = []; }
+      if (j.y < -PAD)      { j.y =  H + PAD; j.trail = []; }
+
+      // Trail: engine is at rear (angle + PI), offset ~60*scale
+      const tx = j.x + Math.cos(j.angle + Math.PI) * 60 * j.scale;
+      const ty = j.y + Math.sin(j.angle + Math.PI) * 60 * j.scale;
+      j.trail.push({ x: tx, y: ty });
+      if (j.trail.length > 80) j.trail.shift();
+
+      drawSpeedLines(j.trail);
+
+      ctx.save();
+      ctx.translate(j.x, j.y);
+      ctx.rotate(j.angle);
+      drawJet(ctx, j.scale, j.sayBerk);
+      ctx.restore();
+    }
+
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+</script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
   import { getDatabase, ref, push, onValue, serverTimestamp, query, limitToLast }
     from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
-
-  // ── Firebase config ──
   const firebaseConfig = {
-    apiKey: "AIzaSyCtNKRUJ4B7ktgun7iBBJs7WM6UQ4NX1Ws",
-    authDomain: "project-chat-9fa39.firebaseapp.com",
-    databaseURL: "https://project-chat-9fa39-default-rtdb.firebaseio.com",
-    projectId: "project-chat-9fa39",
-    storageBucket: "project-chat-9fa39.firebasestorage.app",
-    messagingSenderId: "443248777092",
-    appId: "1:443248777092:web:fd8492e69628f767ef6fd1"
+    apiKey:"AIzaSyCtNKRUJ4B7ktgun7iBBJs7WM6UQ4NX1Ws",
+    authDomain:"project-chat-9fa39.firebaseapp.com",
+    databaseURL:"https://project-chat-9fa39-default-rtdb.firebaseio.com",
+    projectId:"project-chat-9fa39",
+    storageBucket:"project-chat-9fa39.firebasestorage.app",
+    messagingSenderId:"443248777092",
+    appId:"1:443248777092:web:fd8492e69628f767ef6fd1"
   };
-
-  const app = initializeApp(firebaseConfig);
-  const db  = getDatabase(app);
-  const msgsRef = query(ref(db, 'messages'), limitToLast(60));
-
-  // ── Status indicator ──
-  const dot      = document.getElementById('statusDot');
-  const statusTx = document.getElementById('statusText');
-
-  // ── Live current date ──
-  function updateDate() {
-    const now = new Date();
-    const str = now.toLocaleDateString([], { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })
-      + ' · ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    document.getElementById('currentDate').textContent = str + '  ·  target Jun 26, 2026 2:20 PM';
+  const app=initializeApp(firebaseConfig);
+  const db=getDatabase(app);
+  const msgsRef=query(ref(db,'messages'),limitToLast(60));
+  const dot=document.getElementById('statusDot');
+  const statusTx=document.getElementById('statusText');
+  function updateDate(){
+    const now=new Date();
+    document.getElementById('currentDate').textContent=
+      now.toLocaleDateString([],{weekday:'short',year:'numeric',month:'short',day:'numeric'})
+      +' · '+now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})
+      +'  ·  target Jun 26, 2026 2:20 PM';
   }
-  updateDate();
-  setInterval(updateDate, 1000);
-
-  // ── Glyph pulse ──
-  const glyphDots = document.querySelectorAll('.glyph span');
-  setInterval(() => {
-    const i = Math.floor(Math.random() * glyphDots.length);
-    const d = glyphDots[i];
-    const was = d.style.opacity;
-    d.style.opacity = '0.7';
-    setTimeout(() => { d.style.opacity = was; }, 350);
-  }, 700);
-
-  // ── Countdown ──
-  const TARGET = new Date(2026, 5, 26, 14, 20, 0); // June 26 2026 2:20 PM local time
-  const START  = new Date(2025, 8,  5,  8,  0, 0); // Sep 5 2025 local time
-  const TOTAL  = TARGET - START;
-
-  const numEls = {
-    days:    document.getElementById('days'),
-    hours:   document.getElementById('hours'),
-    minutes: document.getElementById('minutes'),
-    seconds: document.getElementById('seconds'),
-  };
-  let prev = {};
-
-  function pad(n) { return String(n).padStart(2, '0'); }
-
-  function tick() {
-    const now  = new Date();
-    const diff = TARGET - now;
-
-    if (diff <= 0) {
-      clearInterval(timer);
-      document.getElementById('countdown').style.display = 'none';
-      document.getElementById('progressWrap').style.display = 'none';
-      document.getElementById('summerMsg').style.display = 'block';
-      return;
-    }
-
-    const totalSecs = Math.floor(diff / 1000);
-    const d = Math.floor(totalSecs / 86400);
-    const h = Math.floor((totalSecs % 86400) / 3600);
-    const m = Math.floor((totalSecs % 3600) / 60);
-    const s = totalSecs % 60;
-
-    const vals = {
-      days:    pad(d),
-      hours:   pad(h),
-      minutes: pad(m),
-      seconds: pad(s),
-    };
-
-    for (const k in vals) {
-      if (vals[k] !== prev[k]) {
-        numEls[k].textContent = vals[k];
-        numEls[k].classList.remove('flip');
-        void numEls[k].offsetWidth;
-        numEls[k].classList.add('flip');
-      }
-    }
-    prev = { ...vals };
-
-    const pct = Math.min(100, Math.max(0, ((now - START) / TOTAL) * 100));
-    document.getElementById('progressFill').style.width = pct.toFixed(1) + '%';
-    document.getElementById('pct').textContent = pct.toFixed(1) + '%';
+  updateDate(); setInterval(updateDate,1000);
+  const glyphDots=document.querySelectorAll('.glyph span');
+  setInterval(()=>{
+    const i=Math.floor(Math.random()*glyphDots.length);
+    const d=glyphDots[i],was=d.style.opacity;
+    d.style.opacity='.7'; setTimeout(()=>{d.style.opacity=was;},350);
+  },700);
+  const TARGET=new Date(2026,5,26,14,20,0);
+  const START=new Date(2025,8,5,8,0,0);
+  const TOTAL=TARGET-START;
+  const numEls={days:document.getElementById('days'),hours:document.getElementById('hours'),minutes:document.getElementById('minutes'),seconds:document.getElementById('seconds')};
+  let prev={};
+  const pad=n=>String(n).padStart(2,'0');
+  function tick(){
+    const now=new Date(),diff=TARGET-now;
+    if(diff<=0){clearInterval(timer);document.getElementById('countdown').style.display='none';document.getElementById('progressWrap').style.display='none';document.getElementById('summerMsg').style.display='block';return;}
+    const ts=Math.floor(diff/1000);
+    const vals={days:pad(Math.floor(ts/86400)),hours:pad(Math.floor((ts%86400)/3600)),minutes:pad(Math.floor((ts%3600)/60)),seconds:pad(ts%60)};
+    for(const k in vals){if(vals[k]!==prev[k]){numEls[k].textContent=vals[k];numEls[k].classList.remove('flip');void numEls[k].offsetWidth;numEls[k].classList.add('flip');}}
+    prev={...vals};
+    const pct=Math.min(100,Math.max(0,((now-START)/TOTAL)*100));
+    document.getElementById('progressFill').style.width=pct.toFixed(1)+'%';
+    document.getElementById('pct').textContent=pct.toFixed(1)+'%';
   }
-
-  // Run immediately and every second
-  tick();
-  const timer = setInterval(tick, 1000);
-  window.addEventListener('focus', tick); // re-sync when tab regains focus
-
-  // ── Chat render ──
-  let lastCount = 0;
-
-  onValue(msgsRef, (snapshot) => {
-    dot.classList.add('live');
-    statusTx.textContent = 'live · global';
-
-    const box    = document.getElementById('chatMessages');
-    const myName = document.getElementById('nameInput').value.trim().toLowerCase();
-    const data   = snapshot.val();
-
-    box.innerHTML = '';
-
-    if (!data) {
-      const e = document.createElement('div');
-      e.className = 'empty-state';
-      e.textContent = 'no messages yet.';
-      box.appendChild(e);
-      lastCount = 0;
-      return;
-    }
-
-    const msgs = Object.values(data);
-    const isNew = msgs.length > lastCount;
-    lastCount = msgs.length;
-
-    msgs.forEach(m => {
-      const isMe = myName && m.name.toLowerCase() === myName;
-
-      const wrap   = document.createElement('div');
-      wrap.className = 'msg ' + (isMe ? 'me' : 'other');
-
-      const name   = document.createElement('div');
-      name.className = 'msg-name';
-      name.textContent = m.name + ' · ' + m.time;
-
-      const bubble = document.createElement('div');
-      bubble.className = 'msg-bubble';
-      bubble.textContent = m.text;
-
-      wrap.appendChild(name);
-      wrap.appendChild(bubble);
-      box.appendChild(wrap);
+  tick(); const timer=setInterval(tick,1000); window.addEventListener('focus',tick);
+  let lastCount=0;
+  onValue(msgsRef,snapshot=>{
+    dot.classList.add('live'); statusTx.textContent='live · global';
+    const box=document.getElementById('chatMessages');
+    const myName=document.getElementById('nameInput').value.trim().toLowerCase();
+    const data=snapshot.val(); box.innerHTML='';
+    if(!data){const e=document.createElement('div');e.className='empty-state';e.textContent='no messages yet.';box.appendChild(e);lastCount=0;return;}
+    const msgs=Object.values(data);
+    const isNew=msgs.length>lastCount; lastCount=msgs.length;
+    msgs.forEach(m=>{
+      const isMe=myName&&m.name.toLowerCase()===myName;
+      const wrap=document.createElement('div'); wrap.className='msg '+(isMe?'me':'other');
+      const name=document.createElement('div'); name.className='msg-name'; name.textContent=m.name+' · '+m.time;
+      const bubble=document.createElement('div'); bubble.className='msg-bubble'; bubble.textContent=m.text;
+      wrap.appendChild(name); wrap.appendChild(bubble); box.appendChild(wrap);
     });
-
-    if (isNew) box.scrollTop = box.scrollHeight;
-  }, (err) => {
-    dot.classList.remove('live'); dot.classList.add('error'); statusTx.textContent = 'connection error — check firebase rules';
-    console.error(err);
-  });
-
-  // ── Send ──
-  function sendMessage() {
-    const nameEl = document.getElementById('nameInput');
-    const msgEl  = document.getElementById('msgInput');
-    const name   = nameEl.value.trim() || 'anon';
-    const text   = msgEl.value.trim();
-    if (!text) return;
-
-    push(ref(db, 'messages'), {
-      name,
-      text,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      ts: serverTimestamp(),
-    });
-
-    msgEl.value = '';
+    if(isNew) box.scrollTop=box.scrollHeight;
+  },err=>{dot.classList.remove('live');dot.classList.add('error');statusTx.textContent='connection error — check firebase rules';});
+  function sendMessage(){
+    const nameEl=document.getElementById('nameInput'),msgEl=document.getElementById('msgInput');
+    const name=nameEl.value.trim()||'anon',text=msgEl.value.trim();
+    if(!text) return;
+    push(ref(db,'messages'),{name,text,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),ts:serverTimestamp()});
+    msgEl.value='';
   }
-
-  document.getElementById('sendBtn').addEventListener('click', sendMessage);
-  document.getElementById('msgInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') sendMessage();
-  });
-
-  // Persist name
-  const saved = localStorage.getItem('summer_name_v3');
-  if (saved) document.getElementById('nameInput').value = saved;
-  document.getElementById('nameInput').addEventListener('input', e => {
-    localStorage.setItem('summer_name_v3', e.target.value);
-  });
+  document.getElementById('sendBtn').addEventListener('click',sendMessage);
+  document.getElementById('msgInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendMessage();});
+  const saved=localStorage.getItem('summer_name_v3');
+  if(saved) document.getElementById('nameInput').value=saved;
+  document.getElementById('nameInput').addEventListener('input',e=>localStorage.setItem('summer_name_v3',e.target.value));
 </script>
-  <div style="margin-top: 48px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: #333; text-align: center;">
-    &lt;/&gt; CODED BY BERK :D 
-  </div>
+
+<div id="footerCredit" style="margin-top:48px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#333;text-align:center;">
+  &lt;/&gt; CODED BY BERK
+</div>
 </body>
 </html>
